@@ -9,10 +9,8 @@ function variantGroup(tailwindClassNames: TemplateStringsArray, ...args: any[]) 
   const brackets = ['(', ')'] as const;
   const classes = joinTemplateStringsArray(tailwindClassNames, args);
 
-  let result = parse({ classes, brackets });
-  console.log({ classes, result })
+  const parsed = parse({ classes, brackets });
+  return parsed.join(' ');
 }
-
-variantGroup`text-white sm:(text-black bg-blue) lg:(text-red bg-white)`;
 
 export default variantGroup;
