@@ -1,7 +1,5 @@
-import { sum } from '../src';
+import group from '../src';
 
-describe('blah', () => {
-  it('works', () => {
-    expect(sum(1, 1)).toEqual(2);
-  });
-});
+test('happy path', () => {
+  group`text-white sm:(text-black bg-blue) lg:(text-red bg-white)`;
+})
