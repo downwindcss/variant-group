@@ -25,21 +25,19 @@ const throwIf = (expression: boolean, callBack: Function) => {
   throw Error(callBack());
 };
 
-function findRightBracket({ classes, brackets, start = 0, end = classes.length }: FindRightBracketProps): number | undefined {
-  console.log({ classes, brackets, start, end });
-
+function findRightBracket({ classes, brackets, start = 0, end = classes.length }: FindRightBracketProps): number {
   let stack = 0;
   for (let index = start; index < end; index++) {
     if (classes[index] === brackets[0]) {
       stack += 1;
     } else if (classes[index] === brackets[1]) {
-      if (stack === 0) return undefined;
+      if (stack === 0) return -1;
       if (stack === 1) return index;
       stack -= 1;
     }
   }
 
-  return undefined;
+  return -1;
 }
 
 
@@ -92,7 +90,7 @@ function parse({
             end: closeBracket,
           })
         );
-        reg.lastIndex = closeBracket ?? 1;
+        reg.lastIndex = closeBracket + 1;
         context = baseContext;
       }
     } else if (className && className.includes('[')) {
@@ -109,7 +107,7 @@ function parse({
           `An ending bracket ']' wasn’t found for these classes:\n\n${classes}`
         )
       );
-      const cssClass = classes.slice(match.index, closeBracket ?? 1);
+      const cssClass = classes.slice(match.index, closeBracket + 1);
 
       // Convert spaces in classes to a temporary string so the css won't be
       // split into multiple classes
@@ -121,7 +119,7 @@ function parse({
 
       results.push(context + spaceReplacedClass);
 
-      reg.lastIndex = closeBracket ?? 1;
+      reg.lastIndex = closeBracket + 1;
       context = baseContext;
     } else if (className) {
       results.push(context + className);
@@ -139,7 +137,7 @@ function parse({
       results.push(
         ...parse({ classes, brackets, context, start: match.index + 1, end: closeBracket })
       );
-      reg.lastIndex = closeBracket ?? 1;
+      reg.lastIndex = closeBracket + 1;
     }
   }
 
