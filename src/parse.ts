@@ -23,10 +23,6 @@ export interface ParserProps {
 
 type FindRightBracketProps = Pick<ParserProps, "classes" | "brackets" | "start" | "end">;
 
-const throwIf = (expression: boolean, callBack: Function) => {
-  if (!expression) return;
-  throw Error(callBack());
-};
 
 function findRightBracket({ classes, brackets, start = 0, end = classes.length }: FindRightBracketProps): number {
   let stack = 0;
@@ -78,12 +74,6 @@ function parse({
 
       if (classes[reg.lastIndex] === brackets[0]) {
         const closeBracket = findRightBracket({ classes, brackets, start: reg.lastIndex });
-        throwIf(typeof closeBracket !== 'number', () =>
-          Error(
-            `An ending bracket ${brackets[1]} wasn’t found for these classes:\n\n${classes}`
-          )
-        );
-
         results.push(
           ...parse({
             classes,
@@ -105,13 +95,7 @@ function parse({
           end: classes.length
         }
       );
-      throwIf(typeof closeBracket !== 'number', () =>
-        Error(
-          `An ending bracket ']' wasn’t found for these classes:\n\n${classes}`
-        )
-      );
       const cssClass = classes.slice(match.index, closeBracket + 1);
-
       // Convert spaces in classes to a temporary string so the css won't be
       // split into multiple classes
       const spaceReplacedClass = cssClass
@@ -131,12 +115,6 @@ function parse({
       results.push(context + weird);
     } else {
       const closeBracket = findRightBracket({ classes, brackets, start: match.index });
-      throwIf(typeof closeBracket !== 'number', () =>
-        Error(
-          `An ending bracket ${brackets[1]} wasn’t found for these classes:\n\n${classes}`
-        )
-      );
-
       results.push(
         ...parse({ classes, brackets, context, start: match.index + 1, end: closeBracket })
       );
