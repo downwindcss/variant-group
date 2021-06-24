@@ -1,4 +1,4 @@
-import group from '../src';
+import group, { TemplateFunction } from '../src';
 
 describe('Edge cases', () => {
   const EMPTY_SPACE = "";
@@ -30,6 +30,37 @@ describe('WITH configurations', () => {
     const tw = group(option);
     if (typeof tw === "string") fail('This should never be a string');
     expect(tw`text-white`).toBe('text-white')
+  })
+
+  test('Dynamic Brackets', () => {
+    // group`text-white sm:(text-black bg-blue) lg:(text-red bg-white)`;
+    let classNames = `bg-red-800 p-2 text-white text-xs mt-4
+    dark:{text-gray-800 bg-gray-300}
+    sm:{
+      text-sm p-4 text-gray-100
+      dark:{bg-[#fff] text-white text-[30px]}
+    }
+    md:{
+      text-base p-8
+      bg-red-500 text-gray-100
+      dark:{bg-gray-600 text-red-100}
+    }
+    lg:{
+      text-lg p-12
+      bg-red-300 text-gray-700
+      dark:{bg-[#abcdef] text-red-100}
+    }
+    xl:{
+      text-2xl p-16
+      bg-white text-gray-800
+      dark:{bg-gray-800 text-red-100}
+    }`
+
+    let option = { brackets: ['{', '}'] as const }
+    const expected = 'bg-red-800 p-2 text-white text-xs mt-4 dark:text-gray-800 dark:bg-gray-300 sm:text-sm sm:p-4 sm:text-gray-100 sm:dark:bg-[#fff] sm:dark:text-white sm:dark:text-[30px] md:text-base md:p-8 md:bg-red-500 md:text-gray-100 md:dark:bg-gray-600 md:dark:text-red-100 lg:text-lg lg:p-12 lg:bg-red-300 lg:text-gray-700 lg:dark:bg-[#abcdef] lg:dark:text-red-100 xl:text-2xl xl:p-16 xl:bg-white xl:text-gray-800 xl:dark:bg-gray-800 xl:dark:text-red-100';
+    const actual = (group(option) as TemplateFunction)`${classNames}`
+
+    expect(actual).toBe(expected);
   })
 })
 

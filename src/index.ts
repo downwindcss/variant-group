@@ -4,11 +4,12 @@ import zipWith from 'lodash.zipwith';
 export interface GroupOption {
   brackets: Readonly<[string, string]>;
 }
+export type TemplateFunction = (classes: TemplateStringsArray, args?: any) => string;
+export type GroupInput = GroupOption | TemplateStringsArray;
 
 const joinTemplateStringsArray = (tailwindClassNames: TemplateStringsArray, ...args: any[]) =>
   zipWith(tailwindClassNames, args, (className, arg) => (className ?? "") + (arg ?? "")).join(' ')
 
-export type GroupInput = GroupOption | TemplateStringsArray;
 
 function isOption(optionOrClasses: GroupInput): optionOrClasses is GroupOption {
   // return (optionOrClasses as GroupOption) !== undefined;
@@ -20,8 +21,7 @@ function isTemplateStringsArray(optionOrClasses: GroupInput): optionOrClasses is
 
 const defaultBrackets: Readonly<[string, string]> = ['(', ')'];
 
-function group(optionOrClasses: GroupInput, args?: any)
-  : string | ((classes: TemplateStringsArray, args?: any) => string) {
+function group(optionOrClasses: GroupInput, args?: any): string | TemplateFunction {
   let brackets: Readonly<[string, string]>
   const fn = (tailwindClasses: TemplateStringsArray, ...args: any): string => {
     const classes = joinTemplateStringsArray(tailwindClasses, args);
