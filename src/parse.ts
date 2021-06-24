@@ -50,10 +50,10 @@ function parse({
   context = '',
   start = 0,
   end,
-}: ParserProps): string[] {
+}: ParserProps) {
   if (classes === '') return [];
 
-  const results = [];
+  const results = [] as string[];
   classes = classes.slice(start, end).trim();
 
   const reg = RegExp(
