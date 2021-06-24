@@ -7,7 +7,10 @@
  * https://github.com/ben-rogerson/twin.macro/blob/16911c0dc7/src/contants.js
  */
 
-const SPACE_ID = '__SPACE_ID__';
+/**
+ * A random dunder GUID to prevent spaces in groups from messing up the parse
+ */
+const SPACE_ID = '__d94f8099-0b3c-471b-85d8-35da7da7a32f__';
 
 
 export interface ParserProps {
