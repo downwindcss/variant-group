@@ -1,27 +1,42 @@
 import parse from './parse';
 import zipWith from 'lodash.zipwith';
 
+export interface GroupOption {
+  brackets: Readonly<[string, string]>;
+}
+
 const joinTemplateStringsArray = (tailwindClassNames: TemplateStringsArray, ...args: any[]) =>
   zipWith(tailwindClassNames, args, (className, arg) => (className ?? "") + (arg ?? "")).join(' ')
 
-// Future version will accept brackets as an "option".
-// So you can do tw`tailwind classes` or tw(['(', '')])`tailwind classes`
-// function tw(option, ...args) {
-//   console.log({ option, brackets: tw.prototype.brackets });
-//   const fn = (text, ...rest) => console.log({ option, text, rest });
+export type GroupInput = GroupOption | TemplateStringsArray;
 
-//   if (!!option.raw) return fn(option, args);
-//   else return fn;
-
-//   throw Error("You can't do this!");
-// }
-
-function variantGroup(tailwindClassNames: TemplateStringsArray, ...args: any[]) {
-  const brackets = ['(', ')'] as const;
-  const classes = joinTemplateStringsArray(tailwindClassNames, args);
-
-  const parsed = parse({ classes, brackets });
-  return parsed.join(' ');
+function isOption(optionOrClasses: GroupInput): optionOrClasses is GroupOption {
+  // return (optionOrClasses as GroupOption) !== undefined;
+  return 'brackets' in optionOrClasses;
+}
+function isTemplateStringsArray(optionOrClasses: GroupInput): optionOrClasses is TemplateStringsArray {
+  return (optionOrClasses as TemplateStringsArray) !== undefined;
 }
 
-export default variantGroup;
+const defaultBrackets: Readonly<[string, string]> = ['(', ')'];
+
+function group(optionOrClasses: GroupInput, args?: any)
+  : string | ((classes: TemplateStringsArray, args?: any) => string) {
+  const fn = (tailwindClasses: TemplateStringsArray, ...args: any): string => {
+    const classes = joinTemplateStringsArray(tailwindClasses, args);
+    const parsed = parse({ classes, brackets });
+    return parsed.join(' ');
+  }
+
+  let brackets = defaultBrackets;
+  if (isOption(optionOrClasses)) {
+    brackets ??= optionOrClasses.brackets;
+    return fn;
+  } else if (isTemplateStringsArray(optionOrClasses)) {
+    return fn(optionOrClasses, args);
+  }
+
+  throw Error('Provide an option or pass classes with template string syntax!');
+}
+
+export default group;
