@@ -22,13 +22,13 @@ const defaultBrackets: Readonly<[string, string]> = ['(', ')'];
 
 function group(optionOrClasses: GroupInput, args?: any)
   : string | ((classes: TemplateStringsArray, args?: any) => string) {
+  let brackets: Readonly<[string, string]>
   const fn = (tailwindClasses: TemplateStringsArray, ...args: any): string => {
     const classes = joinTemplateStringsArray(tailwindClasses, args);
-    const parsed = parse({ classes, brackets });
+    const parsed = parse({ classes, brackets: brackets ?? defaultBrackets });
     return parsed.join(' ');
   }
 
-  let brackets = defaultBrackets;
   if (isOption(optionOrClasses)) {
     brackets ??= optionOrClasses.brackets;
     return fn;
