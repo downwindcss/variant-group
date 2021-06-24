@@ -1,6 +1,6 @@
 import group from '../src';
 
-xdescribe('Edge cases', () => {
+describe('Edge cases', () => {
   const EMPTY_SPACE = "";
 
   it('returns empty string for an empty input', () => {
@@ -33,7 +33,7 @@ describe('WITH configurations', () => {
   })
 })
 
-xdescribe('WithOUT configurations', () => {
+describe('WithOUT configurations', () => {
   test('Dynamic Brackets', () => {
     // group`text-white sm:(text-black bg-blue) lg:(text-red bg-white)`;
     let brackets = ['(', ')']

@@ -30,7 +30,7 @@ function group(optionOrClasses: GroupInput, args?: any)
   }
 
   if (isOption(optionOrClasses)) {
-    brackets ??= optionOrClasses.brackets;
+    brackets = optionOrClasses.brackets ?? defaultBrackets;
     return fn;
   } else if (isTemplateStringsArray(optionOrClasses)) {
     return fn(optionOrClasses, args);
