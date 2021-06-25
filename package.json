@@ -1,6 +1,6 @@
 {
 	"name": "@downwindcss/variant-group",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"author": "dance2die",
 	"module": "dist/variant-group.esm.js",
 	"license": "MIT",
