@@ -12,7 +12,6 @@
  */
 const SPACE_ID = '__d94f8099-0b3c-471b-85d8-35da7da7a32f__';
 
-
 export interface ParserProps {
   classes: string;
   brackets: Readonly<[string, string]>;
@@ -21,10 +20,17 @@ export interface ParserProps {
   end?: number;
 }
 
-type FindRightBracketProps = Pick<ParserProps, "classes" | "brackets" | "start" | "end">;
+type FindRightBracketProps = Pick<
+  ParserProps,
+  'classes' | 'brackets' | 'start' | 'end'
+>;
 
-
-function findRightBracket({ classes, brackets, start = 0, end = classes.length }: FindRightBracketProps): number {
+function findRightBracket({
+  classes,
+  brackets,
+  start = 0,
+  end = classes.length,
+}: FindRightBracketProps): number {
   let stack = 0;
   for (let index = start; index < end; index++) {
     if (classes[index] === brackets[0]) {
@@ -38,7 +44,6 @@ function findRightBracket({ classes, brackets, start = 0, end = classes.length }
 
   return -1;
 }
-
 
 function parse({
   classes,
@@ -73,7 +78,11 @@ function parse({
       }
 
       if (classes[reg.lastIndex] === brackets[0]) {
-        const closeBracket = findRightBracket({ classes, brackets, start: reg.lastIndex });
+        const closeBracket = findRightBracket({
+          classes,
+          brackets,
+          start: reg.lastIndex,
+        });
         results.push(
           ...parse({
             classes,
@@ -87,14 +96,12 @@ function parse({
         context = baseContext;
       }
     } else if (className && className.includes('[')) {
-      const closeBracket = findRightBracket(
-        {
-          classes,
-          brackets: ['[', ']'],
-          start: match.index,
-          end: classes.length
-        }
-      );
+      const closeBracket = findRightBracket({
+        classes,
+        brackets: ['[', ']'],
+        start: match.index,
+        end: classes.length,
+      });
       const cssClass = classes.slice(match.index, closeBracket + 1);
       // Convert spaces in classes to a temporary string so the css won't be
       // split into multiple classes
@@ -114,9 +121,19 @@ function parse({
     } else if (weird) {
       results.push(context + weird);
     } else {
-      const closeBracket = findRightBracket({ classes, brackets, start: match.index });
+      const closeBracket = findRightBracket({
+        classes,
+        brackets,
+        start: match.index,
+      });
       results.push(
-        ...parse({ classes, brackets, context, start: match.index + 1, end: closeBracket })
+        ...parse({
+          classes,
+          brackets,
+          context,
+          start: match.index + 1,
+          end: closeBracket,
+        })
       );
       reg.lastIndex = closeBracket + 1;
     }
