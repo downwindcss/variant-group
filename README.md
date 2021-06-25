@@ -1,5 +1,17 @@
 # @downwindcss/variant-group
 
+---
+## DOESN'T WORK!
+
+BECAUSE Tailwind CSS doesn't wait till `tw` method is returned...
+
+Only to be used as a static class generator, not a dynamic one for now.
+
+I will use this for [@downwindcss/postcss-tailwindcss-at-rules](https://github.com/downwindcss/postcss-tailwindcss-at-rules)
+
+
+---
+
 A javascript library to convert a class text containing variant groups.
 
 This is a javascript version of [downwindcss/postcss-tailwindcss-at-rules](https://github.com/downwindcss/postcss-tailwindcss-at-rules).

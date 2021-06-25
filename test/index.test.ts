@@ -51,6 +51,8 @@ describe('Edge cases', () => {
 
   it('checks for nested empty variants', () => {
     expect(group`dark:(hover:(ring-red-800))`).toBe('dark:hover:ring-red-800')
+    console.log(group`p-4 border-2 border-gray-800 dark:border-gray-300 rounded-md hover:ring-4
+    dark:(hover:(ring-red-800))`)
   })
 });
 
