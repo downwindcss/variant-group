@@ -48,6 +48,10 @@ describe('Edge cases', () => {
 
 `).toBe(EMPTY_SPACE);
   });
+
+  it('checks for nested empty variants', () => {
+    expect(group`dark:(hover:(ring-red-800))`).toBe('dark:hover:ring-red-800')
+  })
 });
 
 describe('WITH configurations', () => {
