@@ -6,10 +6,7 @@
 	"license": "MIT",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
-	"files": [
-		"dist",
-		"src"
-	],
+	"files": [ "dist", "src" ],
 	"engines": {
 		"node": ">=10"
 	},
@@ -36,11 +33,11 @@
 	"size-limit": [
 		{
 			"path": "dist/variant-group.cjs.production.min.js",
-			"limit": "10 KB"
+			"limit": "1.5 KB"
 		},
 		{
 			"path": "dist/variant-group.esm.js",
-			"limit": "10 KB"
+			"limit": "1.5 KB"
 		}
 	],
 	"devDependencies": {
