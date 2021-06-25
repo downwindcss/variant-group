@@ -54,4 +54,5 @@ function group(
   throw Error('Provide an option or pass classes with template string syntax!');
 }
 
+export { parse };
 export default group;
