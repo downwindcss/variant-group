@@ -59,15 +59,20 @@ describe('WITH configurations', () => {
   });
 
   test('Dynamic Brackets', () => {
-    const brackets = ['{', '}'] as Brackets;
-    let classNames = getClasses(brackets);
-
-    let option = { brackets };
+    const bracketsList = [
+      ['{', '}'],
+      ['(', ')'],
+    ] as Brackets[];
     const expected =
       'bg-red-800 p-2 text-white text-xs mt-4 dark:text-gray-800 dark:bg-gray-300 sm:text-sm sm:p-4 sm:text-gray-100 sm:dark:bg-[#fff] sm:dark:text-white sm:dark:text-[30px] md:text-base md:p-8 md:bg-red-500 md:text-gray-100 md:dark:bg-gray-600 md:dark:text-red-100 lg:text-lg lg:p-12 lg:bg-red-300 lg:text-gray-700 lg:dark:bg-[#abcdef] lg:dark:text-red-100 xl:text-2xl xl:p-16 xl:bg-white xl:text-gray-800 xl:dark:bg-gray-800 xl:dark:text-red-100';
-    const actual = (group(option) as TemplateFunction)`${classNames}`;
 
-    expect(actual).toBe(expected);
+    for (let i = 0; i < bracketsList.length; i++) {
+      const brackets = bracketsList[i];
+      let classNames = getClasses(brackets);
+      const actual = (group({ brackets }) as TemplateFunction)`${classNames}`;
+
+      expect(actual).toBe(expected);
+    }
   });
 });
 
