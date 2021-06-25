@@ -1,8 +1,9 @@
 import parse from './parse';
 import zipWith from 'lodash.zipwith';
 
+export type Brackets = Readonly<[string, string]>;
 export interface GroupOption {
-  brackets: Readonly<[string, string]>;
+  brackets: Brackets;
 }
 export type TemplateFunction = (classes: TemplateStringsArray, args?: any) => string;
 export type GroupInput = GroupOption | TemplateStringsArray;
@@ -19,10 +20,10 @@ function isTemplateStringsArray(optionOrClasses: GroupInput): optionOrClasses is
   return (optionOrClasses as TemplateStringsArray) !== undefined;
 }
 
-const defaultBrackets: Readonly<[string, string]> = ['(', ')'];
+const defaultBrackets: Brackets = ['(', ')'];
 
 function group(optionOrClasses: GroupInput, args?: any): string | TemplateFunction {
-  let brackets: Readonly<[string, string]>
+  let brackets: Brackets
   const fn = (tailwindClasses: TemplateStringsArray, ...args: any): string => {
     const classes = joinTemplateStringsArray(tailwindClasses, args);
     const parsed = parse({ classes, brackets: brackets ?? defaultBrackets });
