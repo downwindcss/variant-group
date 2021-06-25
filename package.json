@@ -1,6 +1,6 @@
 {
 	"name": "@downwindcss/variant-group",
-	"version": "0.1.0",
+	"version": "0.0.0",
 	"author": "dance2die",
 	"module": "dist/variant-group.esm.js",
 	"license": "MIT",
@@ -17,7 +17,11 @@
 		"lint": "tsdx lint",
 		"prepare": "tsdx build",
 		"size": "size-limit",
-		"analyze": "size-limit --why"
+		"analyze": "size-limit --why",
+		"version:alpha": "pnpm version prerelease --preid=alpha",
+		"publish:alpha": "pnpm publish --tag alpha",
+		"version:beta": "pnpm version prerelease --preid=beta",
+		"publish:beta": "pnpm publish --tag beta"
 	},
 	"husky": {
 		"hooks": {
